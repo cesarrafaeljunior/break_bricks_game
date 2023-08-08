@@ -16,7 +16,17 @@
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_pad_modules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/pad.modules */ \"./src/modules/pad.modules.ts\");\n\nconst game = () => {\n    const canvas = document.getElementById(\"canvas\");\n    const ctx = canvas.getContext(\"2d\");\n    if (!ctx) {\n        return;\n    }\n    const paddle = new _modules_pad_modules__WEBPACK_IMPORTED_MODULE_0__.Paddle(ctx);\n    const gameLoop = () => {\n        ctx.clearRect(0, 0, canvas.width, canvas.height);\n        paddle.draw();\n        requestAnimationFrame(gameLoop);\n    };\n    requestAnimationFrame(gameLoop);\n};\nrequestAnimationFrame(game);\n\n\n//# sourceURL=webpack://game_pong/./src/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_ball_modules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/ball.modules */ \"./src/modules/ball.modules.ts\");\n/* harmony import */ var _modules_pad_modules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/pad.modules */ \"./src/modules/pad.modules.ts\");\n\n\nconst game = () => {\n    const canvas = document.getElementById(\"canvas\");\n    const ctx = canvas.getContext(\"2d\");\n    if (!ctx) {\n        return;\n    }\n    const paddle = new _modules_pad_modules__WEBPACK_IMPORTED_MODULE_1__.Paddle(ctx);\n    const ball = new _modules_ball_modules__WEBPACK_IMPORTED_MODULE_0__.Ball(ctx);\n    const gameLoop = () => {\n        ctx.clearRect(0, 0, canvas.width, canvas.height);\n        paddle.draw();\n        ball.draw();\n        requestAnimationFrame(gameLoop);\n    };\n    requestAnimationFrame(gameLoop);\n};\nrequestAnimationFrame(game);\n\n\n//# sourceURL=webpack://game_pong/./src/index.ts?");
+
+/***/ }),
+
+/***/ "./src/modules/ball.modules.ts":
+/*!*************************************!*\
+  !*** ./src/modules/ball.modules.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Ball: () => (/* binding */ Ball)\n/* harmony export */ });\nclass Ball {\n    ctx;\n    constructor(ctx) {\n        this.ctx = ctx;\n    }\n    draw() {\n        this.ctx.beginPath();\n        this.ctx.arc(300, 200, 10, 0, 2 * Math.PI);\n        this.ctx.fill();\n    }\n}\n\n\n//# sourceURL=webpack://game_pong/./src/modules/ball.modules.ts?");
 
 /***/ }),
 
