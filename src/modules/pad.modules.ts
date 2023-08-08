@@ -1,14 +1,17 @@
-import { Keyboard, iKeyboard } from "./keyboard.modules";
+import { Keyboard } from "./keyboard.modules";
 
 export class Paddle {
   public totalWidthCanvas: number = 0;
-  public positionX: number = 400;
-  public positionY: number = 750;
+  public positionX: number = 0;
+  public positionY: number = 0;
   public speed: number = 20;
+  static initGame: boolean = false;
   keyboard: Keyboard = new Keyboard();
 
   constructor(public ctx: CanvasRenderingContext2D) {
     this.totalWidthCanvas = ctx.canvas.width;
+    this.positionX = (ctx.canvas.width - 100) / 2;
+    this.positionY = ctx.canvas.height - 50;
   }
 
   draw() {
@@ -21,9 +24,15 @@ export class Paddle {
     this.keyboard.keyPressEvent();
     this.colisionPaddle();
     if (this.keyboard.right) {
+      if (!Paddle.initGame) {
+        Paddle.initGame = true;
+      }
       this.positionX += this.speed;
     }
     if (this.keyboard.left) {
+      if (!Paddle.initGame) {
+        Paddle.initGame = true;
+      }
       this.positionX -= this.speed;
     }
   }
