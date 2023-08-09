@@ -4,7 +4,7 @@ export class Ball {
   public positionBallX: number = 400;
   public positionBallY: number = 540;
   public speed: number = 5;
-  public directionX: number = 1;
+  public directionX: number = Math.random() * 10 > 5 ? -1 : 1;
   public directionY: number = 1;
 
   constructor(public ctx: CanvasRenderingContext2D) {}
@@ -20,17 +20,29 @@ export class Ball {
   }
 
   public move() {
-    if (this.positionBallY >= 0) {
-      if (this.positionBallY == 0) {
-        this.directionY = -1;
-      }
-      this.positionBallY -= this.directionY * this.speed;
-    }
+    this.positionBallY -= this.directionY * this.speed;
+    this.positionBallX += this.directionX * this.speed;
+    this.colisionBall();
   }
 
-  colisionBallWhitPaddle() {
-    if (this.positionBallY == 0) {
-      console.log("Bati");
+  colisionBall() {
+    if (this.positionBallY <= 0) {
+      this.directionY = -1;
+    }
+
+    if (
+      this.positionBallX >= this.ctx.canvas.width ||
+      this.positionBallX <= 0
+    ) {
+      this.directionX *= -1;
+    }
+
+    if (
+      this.positionBallX >= Paddle.positionX && // Verifica colisão à direita do paddle
+      this.positionBallX <= Paddle.positionX + Paddle.widthPaddle && // Verifica colisão à esquerda do paddle
+      this.positionBallY >= Paddle.positionY
+    ) {
+      this.directionY *= -1;
     }
   }
 }
