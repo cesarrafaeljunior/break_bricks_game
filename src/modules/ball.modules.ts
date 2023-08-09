@@ -20,8 +20,17 @@ export class Ball {
   }
 
   public move() {
-    this.positionBallY -= this.directionY * this.speed;
+    if (this.positionBallY >= 0) {
+      if (this.positionBallY == 0) {
+        this.directionY = -1;
+      }
+      this.positionBallY -= this.directionY * this.speed;
+    }
   }
 
-  colisionBall() {}
+  colisionBallWhitPaddle() {
+    if (this.positionBallY == 0) {
+      console.log("Bati");
+    }
+  }
 }
