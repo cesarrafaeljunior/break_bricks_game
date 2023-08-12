@@ -1,13 +1,16 @@
 import { Paddle } from "./pad.modules";
 
 export class Ball {
-  public positionBallX: number = 400;
-  public positionBallY: number = 540;
+  public positionBallX: number = 0;
+  public positionBallY: number = 0;
   public speed: number = 5;
   public directionX: number = Math.random() * 10 > 5 ? -1 : 1;
   public directionY: number = 1;
 
-  constructor(public ctx: CanvasRenderingContext2D) {}
+  constructor(public ctx: CanvasRenderingContext2D) {
+    this.positionBallX = this.ctx.canvas.width / 2;
+    this.positionBallY = this.ctx.canvas.height - 60;
+  }
 
   draw() {
     if (Paddle.initGame) {
@@ -15,7 +18,7 @@ export class Ball {
     }
     this.ctx.beginPath();
     this.ctx.arc(this.positionBallX, this.positionBallY, 10, 0, 2 * Math.PI);
-    this.ctx.fillStyle = "green";
+    this.ctx.fillStyle = "white";
     this.ctx.fill();
   }
 
