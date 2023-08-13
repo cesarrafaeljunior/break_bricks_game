@@ -1,6 +1,7 @@
+import { Canvas } from "./canvas.modules";
 import { Keyboard } from "./keyboard.modules";
 
-export class Paddle {
+export class Paddle extends Canvas {
   static widthPaddle = 100;
   static heightPaddle = 15;
   static positionX: number = 0;
@@ -8,10 +9,12 @@ export class Paddle {
   public speed: number = 20;
   static initGame: boolean = false;
   keyboard: Keyboard = new Keyboard();
+  canvas = new Canvas();
 
   constructor(public ctx: CanvasRenderingContext2D) {
-    Paddle.positionX = 100;
-    Paddle.positionY = 500;
+    super();
+    Paddle.positionX = this.canvas.widthCanvas / 2;
+    Paddle.positionY = this.canvas.heigthCanvas - 50;
   }
 
   draw() {
