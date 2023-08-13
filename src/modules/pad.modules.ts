@@ -1,7 +1,6 @@
 import { Keyboard } from "./keyboard.modules";
 
 export class Paddle {
-  public totalWidthCanvas: number = 0;
   static widthPaddle = 100;
   static heightPaddle = 15;
   static positionX: number = 0;
@@ -11,9 +10,8 @@ export class Paddle {
   keyboard: Keyboard = new Keyboard();
 
   constructor(public ctx: CanvasRenderingContext2D) {
-    this.totalWidthCanvas = ctx.canvas.width;
-    Paddle.positionX = (ctx.canvas.width - 100) / 2;
-    Paddle.positionY = ctx.canvas.height - 50;
+    Paddle.positionX = 100;
+    Paddle.positionY = 500;
   }
 
   draw() {
@@ -45,7 +43,7 @@ export class Paddle {
   }
 
   colisionPaddle() {
-    if (Paddle.positionX + 100 >= this.totalWidthCanvas) {
+    if (Paddle.positionX + 100 >= this.ctx.canvas.width) {
       this.keyboard.right = false;
     }
     if (Paddle.positionX <= 0) {

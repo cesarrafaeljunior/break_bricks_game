@@ -1,42 +1,52 @@
 import { Ball } from "./modules/ball.modules";
+import { Canvas } from "./modules/canvas.modules";
 import { Paddle } from "./modules/pad.modules";
 
-const game = () => {
-  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+class Game {
+  paddle = new Paddle(Canvas.ctx);
+  ball = new Ball(Canvas.ctx);
 
-  if (window.innerWidth > 400) {
-    canvas.width = 800;
-  } else {
-    canvas.width = window.innerWidth;
+  static initGame: boolean = false;
+
+  constructor() {
+    this.windowSize();
   }
 
-  if (window.innerHeight > 400) {
-    canvas.height = 600;
-  } else {
-    canvas.height = window.innerHeight;
+  windowSize() {
+    if (window.innerWidth > 400) {
+      this.widthCanvas = 800;
+    } else {
+      this.widthCanvas = window.innerWidth;
+    }
+
+    if (window.innerHeight > 400) {
+      this.heigthCanvas = 600;
+    } else {
+      this.heigthCanvas = window.innerHeight;
+    }
+
+    this.canvas.width = this.widthCanvas;
+    this.canvas.height = this.heigthCanvas;
   }
 
-  const ctx = canvas.getContext("2d");
-
-  if (!ctx) {
-    return;
+  renderBg() {
+    const bg = new Image();
+    bg.src = "../public/assets/img/bgs/bg_space.png";
+    this.ctx.drawImage(bg, 0, 0, this.widthCanvas, this.heigthCanvas);
   }
 
-  const paddle = new Paddle(ctx);
-  const ball = new Ball(ctx);
+  renderObjects() {
+    this.paddle.draw();
+    this.ball.draw();
+  }
 
-  const bg = new Image();
-  bg.src = "../public/assets/img/bgs/bg_space.png";
-  bg.style.objectFit = "cover";
-
-  const gameLoop = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
-    paddle.draw();
-    ball.draw();
-    requestAnimationFrame(gameLoop);
+  gameLoop = () => {
+    this.ctx.clearRect(0, 0, this.widthCanvas, this.heigthCanvas);
+    this.renderBg();
+    this.renderObjects();
+    requestAnimationFrame(this.gameLoop);
   };
-  requestAnimationFrame(gameLoop);
-};
+}
 
-requestAnimationFrame(game);
+const game = new Game();
+requestAnimationFrame(game.gameLoop);
