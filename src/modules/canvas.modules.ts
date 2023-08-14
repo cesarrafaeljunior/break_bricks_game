@@ -1,17 +1,34 @@
 export class Canvas {
-  static canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D;
-  widthCanvas: number;
-  heigthCanvas: number;
+  canvasTag: HTMLCanvasElement;
 
   constructor() {
-    Canvas.canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    this.ctx = Canvas.canvas.getContext("2d")!;
+    this.canvasTag = document.getElementById("canvas") as HTMLCanvasElement;
+    this.resizeCanvas();
+  }
 
-    this.widthCanvas = window.innerWidth;
-    this.heigthCanvas = window.innerHeight;
+  getContext() {
+    return this.canvasTag.getContext("2d");
+  }
 
-    this.ctx.canvas.width = this.widthCanvas;
-    this.ctx.canvas.height = this.heigthCanvas;
+  widthCanvas() {
+    return this.canvasTag.width;
+  }
+
+  heightCanvas() {
+    return this.canvasTag.height;
+  }
+
+  resizeCanvas() {
+    if (window.innerWidth > 400) {
+      this.canvasTag.width = 800;
+    } else {
+      this.canvasTag.width = window.innerWidth;
+    }
+
+    if (window.innerHeight > 600) {
+      this.canvasTag.height = 600;
+    } else {
+      this.canvasTag.height = window.innerHeight;
+    }
   }
 }

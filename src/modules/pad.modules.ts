@@ -1,30 +1,29 @@
+import { Game } from "..";
+import { IPaddle } from "../interfaces/paddle.interface";
 import { Canvas } from "./canvas.modules";
 import { Keyboard } from "./keyboard.modules";
 
-export class Paddle extends Canvas {
-  static widthPaddle = 100;
-  static heightPaddle = 15;
-  static positionX: number = 0;
-  static positionY: number = 0;
-  public speed: number = 20;
-  static initGame: boolean = false;
+export class Paddle extends Canvas implements IPaddle {
+  sizes: { width: number; height: number };
+  positions: { x: number; y: number };
+  speed: number;
   keyboard: Keyboard = new Keyboard();
-  canvas = new Canvas();
 
   constructor(public ctx: CanvasRenderingContext2D) {
     super();
-    Paddle.positionX = this.canvas.widthCanvas / 2;
-    Paddle.positionY = this.canvas.heigthCanvas - 50;
+    this.positions = { x: this.widthCanvas() / 2, y: this.heightCanvas() - 50 };
+    this.sizes = { width: 100, height: 10 };
+    this.speed = 20;
   }
 
   draw() {
     this.movePaddle();
-    this.ctx.fillStyle = "black";
+    this.ctx.fillStyle = "white";
     this.ctx.fillRect(
-      Paddle.positionX,
-      Paddle.positionY,
-      Paddle.widthPaddle,
-      Paddle.heightPaddle
+      this.positions.x,
+      this.positions.y,
+      this.sizes.width,
+      this.sizes.height
     );
   }
 
@@ -32,24 +31,24 @@ export class Paddle extends Canvas {
     this.keyboard.keyPressEvent();
     this.colisionPaddle();
     if (this.keyboard.right) {
-      if (!Paddle.initGame) {
-        Paddle.initGame = true;
+      if (!Game.initGame) {
+        Game.initGame = true;
       }
-      Paddle.positionX += this.speed;
+      this.positions.x += this.speed;
     }
     if (this.keyboard.left) {
-      if (!Paddle.initGame) {
-        Paddle.initGame = true;
+      if (!Game.initGame) {
+        Game.initGame = true;
       }
-      Paddle.positionX -= this.speed;
+      this.positions.x -= this.speed;
     }
   }
 
   colisionPaddle() {
-    if (Paddle.positionX + 100 >= this.ctx.canvas.width) {
+    if (this.positions.x + 100 >= this.widthCanvas()) {
       this.keyboard.right = false;
     }
-    if (Paddle.positionX <= 0) {
+    if (this.positions.x <= 0) {
       this.keyboard.left = false;
     }
   }

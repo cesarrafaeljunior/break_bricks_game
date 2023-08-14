@@ -2,30 +2,17 @@ import { Ball } from "./modules/ball.modules";
 import { Canvas } from "./modules/canvas.modules";
 import { Paddle } from "./modules/pad.modules";
 
-class Game extends Canvas {
-  canvas = new Canvas();
-  paddle = new Paddle(this.canvas.ctx);
-  ball = new Ball(this.canvas.ctx);
-
+export class Game extends Canvas {
+  ctx: CanvasRenderingContext2D;
+  paddle: Paddle;
+  ball: Ball;
   static initGame: boolean = false;
 
   constructor() {
     super();
-    this.windowSize();
-  }
-
-  windowSize() {
-    if (window.innerWidth > 400) {
-      this.canvas.widthCanvas = 800;
-    } else {
-      this.canvas.widthCanvas = window.innerWidth;
-    }
-
-    if (window.innerHeight > 400) {
-      this.canvas.heigthCanvas = 600;
-    } else {
-      this.canvas.heigthCanvas = window.innerHeight;
-    }
+    this.ctx = this.getContext()!;
+    this.paddle = new Paddle(this.ctx);
+    this.ball = new Ball(this.ctx, this.paddle);
   }
 
   renderBg() {
@@ -40,7 +27,7 @@ class Game extends Canvas {
   }
 
   gameLoop = () => {
-    this.ctx.clearRect(0, 0, this.canvas.widthCanvas, this.canvas.heigthCanvas);
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.renderBg();
     this.renderObjects();
     requestAnimationFrame(this.gameLoop);
