@@ -2,6 +2,7 @@ import { Game } from "..";
 import { IBall } from "../interfaces/ball.interface";
 import { Canvas } from "./canvas.modules";
 import { Paddle } from "./pad.modules";
+import { Texts } from "./texts.modules";
 
 export class Ball extends Canvas implements IBall {
   angles: {
@@ -67,8 +68,12 @@ export class Ball extends Canvas implements IBall {
       this.directions.x *= -1;
     }
 
-    if (this.positions.y + this.sizes.height >= this.heightCanvas()) {
+    if (
+      this.positions.y + this.sizes.height >=
+      this.paddle.positions.y + this.paddle.sizes.height
+    ) {
       Game.initGame = false;
+      Game.gameOver = true;
       this.positionBall();
     }
   }
@@ -84,15 +89,12 @@ export class Ball extends Canvas implements IBall {
 
       if (this.positions.x < paddleCenter) {
         this.directions.x = -1;
-        console.log("Bati na esquerda");
       }
       if (this.positions.x == paddleCenter) {
         this.directions.x = 0;
-        console.log("Bati na meio");
       }
       if (this.positions.x > paddleCenter) {
         this.directions.x = 1;
-        console.log("Bati na direita");
       }
 
       this.directions.y *= -1;
@@ -102,7 +104,7 @@ export class Ball extends Canvas implements IBall {
   positionBall() {
     return (this.positions = {
       x: this.paddle.positions.x + this.paddle.sizes.width / 2,
-      y: this.heightCanvas() - 60,
+      y: this.heightCanvas() - 20,
     });
   }
 

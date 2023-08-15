@@ -40,3 +40,7 @@ main {
   background-color: blueviolet;
   color: white;
 }
+
+.buttonHidden {
+  opacity: 0;
+}

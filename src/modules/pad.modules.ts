@@ -11,7 +11,7 @@ export class Paddle extends Canvas implements IPaddle {
 
   constructor(public ctx: CanvasRenderingContext2D) {
     super();
-    this.positions = { x: this.widthCanvas() / 2, y: this.heightCanvas() - 50 };
+    this.positions = { x: this.widthCanvas() / 2, y: this.heightCanvas() - 10 };
     this.sizes = { width: 100, height: 10 };
     this.speed = 20;
   }
