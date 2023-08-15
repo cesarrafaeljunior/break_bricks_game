@@ -13,6 +13,17 @@ export class Game extends Canvas {
     this.ctx = this.getContext()!;
     this.paddle = new Paddle(this.ctx);
     this.ball = new Ball(this.ctx, this.paddle);
+    this.initGame();
+  }
+
+  initGame() {
+    if (!Game.initGame) {
+      const buttonGame = document.getElementById("buttonGame")!;
+      buttonGame.addEventListener("click", () => {
+        Game.initGame = true;
+        this.ball.directions.x = Math.random() < 0.5 ? 1 : -1;
+      });
+    }
   }
 
   renderBg() {

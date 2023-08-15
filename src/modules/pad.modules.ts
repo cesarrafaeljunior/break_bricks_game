@@ -31,16 +31,14 @@ export class Paddle extends Canvas implements IPaddle {
     this.keyboard.keyPressEvent();
     this.colisionPaddle();
     if (this.keyboard.right) {
-      if (!Game.initGame) {
-        Game.initGame = true;
+      if (Game.initGame) {
+        this.positions.x += this.speed;
       }
-      this.positions.x += this.speed;
     }
     if (this.keyboard.left) {
-      if (!Game.initGame) {
-        Game.initGame = true;
+      if (Game.initGame) {
+        this.positions.x -= this.speed;
       }
-      this.positions.x -= this.speed;
     }
   }
 

@@ -18,10 +18,7 @@ export class Ball extends Canvas implements IBall {
   constructor(public ctx: CanvasRenderingContext2D, paddle: Paddle) {
     super();
     this.paddle = paddle;
-    this.positions = {
-      x: this.widthCanvas() / 2 + this.paddle.sizes.width / 2,
-      y: this.heightCanvas() - 60,
-    };
+    this.positions = this.positionBall();
     this.angles = { ray: 10, initialAngle: 0, finalAngle: 2 * Math.PI };
     this.sizes = {
       width: this.widthBall(),
@@ -69,6 +66,11 @@ export class Ball extends Canvas implements IBall {
     ) {
       this.directions.x *= -1;
     }
+
+    if (this.positions.y + this.sizes.height >= this.heightCanvas()) {
+      Game.initGame = false;
+      this.positionBall();
+    }
   }
 
   colisionPaddle() {
@@ -95,6 +97,13 @@ export class Ball extends Canvas implements IBall {
 
       this.directions.y *= -1;
     }
+  }
+
+  positionBall() {
+    return (this.positions = {
+      x: this.paddle.positions.x + this.paddle.sizes.width / 2,
+      y: this.heightCanvas() - 60,
+    });
   }
 
   widthBall() {
