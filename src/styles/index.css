@@ -43,4 +43,5 @@ main {
 
 .buttonHidden {
   opacity: 0;
+  cursor: auto !important;
 }
