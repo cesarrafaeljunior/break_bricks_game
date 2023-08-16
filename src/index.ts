@@ -4,6 +4,16 @@ import { Enemies } from "./modules/enemies";
 import { Paddle } from "./modules/pad.modules";
 import { Texts } from "./modules/texts.modules";
 
+let maxEnemies = 20;
+
+export let enemies = [{}];
+
+for (let i = 0; i < maxEnemies; i++) {
+  enemies.push({
+    lifes: 3,
+  });
+}
+
 export class Game extends Canvas {
   ctx: CanvasRenderingContext2D;
   paddle: Paddle;
@@ -20,7 +30,7 @@ export class Game extends Canvas {
     this.texts = new Texts(this.ctx);
     this.paddle = new Paddle(this.ctx);
     this.ball = new Ball(this.ctx, this.paddle);
-    this.enemies = new Enemies(this.ctx);
+    this.enemies = new Enemies(this.ctx, this.ball);
     this.initGame();
   }
 
@@ -48,7 +58,6 @@ export class Game extends Canvas {
     this.paddle.draw();
     this.ball.draw();
     this.renderEnemies();
-
     if (Game.gameOver) {
       this.button.classList.remove("buttonHidden");
       this.button.removeAttribute("disabled");
@@ -57,32 +66,18 @@ export class Game extends Canvas {
   }
 
   renderEnemies() {
-    while (this.enemies.totalRender < this.enemies.maxEnemies) {
-      const x =
-        this.enemies.initialPositions() +
-        this.enemies.currentCol * this.enemies.enemySpacingX;
-      const y =
-        this.enemies.startY +
-        this.enemies.currentRow * this.enemies.enemySpacingY;
-
-      this.enemies.addEnemyPosition(x, y);
-
-      this.enemies.currentCol++;
-
-      if (this.enemies.currentCol >= this.enemies.maxEnemiesPerRow) {
-        this.enemies.currentCol = 0;
-        this.enemies.currentRow++;
+    for (let i = 0; i < enemies.length; i++) {
+      if (enemies[i].lifes > 0) {
+        this.enemies.draw(i * 20, 100, enemies[i]);
       }
-      this.enemies.totalRender++;
     }
-
-    this.enemies.render();
   }
 
   gameLoop = () => {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.renderBg();
     this.renderObjects();
+
     requestAnimationFrame(this.gameLoop);
   };
 }

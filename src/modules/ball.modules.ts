@@ -2,7 +2,6 @@ import { Game } from "..";
 import { IBall } from "../interfaces/ball.interface";
 import { Canvas } from "./canvas.modules";
 import { Paddle } from "./pad.modules";
-import { Texts } from "./texts.modules";
 
 export class Ball extends Canvas implements IBall {
   angles: {
@@ -74,6 +73,7 @@ export class Ball extends Canvas implements IBall {
     ) {
       Game.initGame = false;
       Game.gameOver = true;
+      this.paddle.positionPaddle();
       this.positionBall();
     }
   }

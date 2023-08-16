@@ -3,8 +3,4 @@ export interface IEnemies {
     width: number;
     height: number;
   };
-  positions: {
-    x: number;
-    y: number;
-  }[];
 }
