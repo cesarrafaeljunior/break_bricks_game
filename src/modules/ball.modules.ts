@@ -1,6 +1,7 @@
 import { Game } from "..";
 import { IBall } from "../interfaces/ball.interface";
 import { Canvas } from "./canvas.modules";
+import { Enemies } from "./enemies";
 import { Paddle } from "./pad.modules";
 
 export class Ball extends Canvas implements IBall {
