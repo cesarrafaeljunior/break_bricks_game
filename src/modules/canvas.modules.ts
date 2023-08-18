@@ -20,13 +20,13 @@ export class Canvas {
 
   resizeCanvas() {
     if (window.innerWidth > 400) {
-      this.canvasTag.width = 800;
+      this.canvasTag.width = 1000;
     } else {
       this.canvasTag.width = window.innerWidth;
     }
 
     if (window.innerHeight > 600) {
-      this.canvasTag.height = 600;
+      this.canvasTag.height = 800;
     } else {
       this.canvasTag.height = window.innerHeight;
     }

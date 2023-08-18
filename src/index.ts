@@ -4,14 +4,12 @@ import { Enemies } from "./modules/enemies";
 import { Paddle } from "./modules/pad.modules";
 import { Texts } from "./modules/texts.modules";
 
-const enemies: Enemies[] = [];
-
 export class Game extends Canvas {
   ctx: CanvasRenderingContext2D;
   paddle: Paddle;
   ball: Ball;
   texts: Texts;
-  enemy: any;
+  enemy: Enemies;
   static initGame: boolean = false;
   static gameOver: boolean = false;
   button: HTMLButtonElement = document.querySelector("#buttonGame")!;
@@ -21,8 +19,8 @@ export class Game extends Canvas {
     this.ctx = this.getContext()!;
     this.texts = new Texts(this.ctx);
     this.paddle = new Paddle(this.ctx);
-    this.enemy = this.enemiesContage();
     this.ball = new Ball(this.ctx, this.paddle);
+    this.enemy = new Enemies(this.ctx, this.ball);
     this.initGame();
   }
 
@@ -49,19 +47,11 @@ export class Game extends Canvas {
   renderObjects() {
     this.paddle.draw();
     this.ball.draw();
-    enemies.forEach((enemy) => {
-      enemy.draw();
-    });
+    this.enemy.populateEnemies();
     if (Game.gameOver) {
       this.button.classList.remove("buttonHidden");
       this.button.removeAttribute("disabled");
       this.texts.drawText();
-    }
-  }
-
-  enemiesContage() {
-    for (let i = 0; i < 20; i++) {
-      enemies.push(new Enemies(50 * i, 30, this.ctx));
     }
   }
 

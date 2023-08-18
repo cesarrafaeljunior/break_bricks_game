@@ -1,7 +1,6 @@
 import { Game } from "..";
 import { IBall } from "../interfaces/ball.interface";
 import { Canvas } from "./canvas.modules";
-import { Enemies } from "./enemies";
 import { Paddle } from "./pad.modules";
 
 export class Ball extends Canvas implements IBall {
@@ -43,6 +42,7 @@ export class Ball extends Canvas implements IBall {
     );
     this.ctx.fillStyle = "white";
     this.ctx.fill();
+    this.ctx.closePath();
   }
 
   public move() {
