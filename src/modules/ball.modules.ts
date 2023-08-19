@@ -25,7 +25,7 @@ export class Ball extends Canvas implements IBall {
       height: this.heightBall(),
     };
     this.directions = { x: 1, y: 1 };
-    this.speed = 5;
+    this.speed = 7;
   }
 
   draw() {
@@ -45,7 +45,7 @@ export class Ball extends Canvas implements IBall {
     this.ctx.closePath();
   }
 
-  public move() {
+  move() {
     this.positions.y -= this.directions.y * this.speed;
     this.positions.x += this.directions.x * this.speed;
     this.colisionBall();
@@ -72,9 +72,24 @@ export class Ball extends Canvas implements IBall {
       this.positions.y + this.sizes.height >=
       this.paddle.positions.y + this.paddle.sizes.height
     ) {
-      Game.initGame = false;
-      Game.gameOver = true;
-      this.paddle.positionPaddle();
+      if (Game.scoreValue > Game.recordValues) {
+        Game.record.innerHTML = `${Game.scoreValue}`;
+      }
+      Game.recordValues = Game.scoreValue;
+      Game.scoreValue = 0;
+      Game.score.innerHTML = `${Game.scoreValue}`;
+
+      if (Game.lifesValues == 0) {
+        Game.initGame = false;
+        Game.gameOver = true;
+        this.paddle.positionPaddle();
+      } else {
+        Game.lifesValues--;
+        Game.lifes.innerHTML = `${Game.lifesValues}`;
+        Game.initGame = false;
+        Game.enableButtonStart();
+      }
+
       this.positionBall();
     }
   }
@@ -90,26 +105,24 @@ export class Ball extends Canvas implements IBall {
         this.paddle.positions.x + this.paddle.sizes.width / 2;
       const paddleSemiTipLeft =
         this.paddle.positions.x + this.paddle.sizes.width / 5;
-
-      //Colisões do lado esquerdo
       if (
         this.positions.x + this.sizes.width < paddleSemiTipLeft &&
         this.positions.x + this.sizes.width >= this.paddle.positions.x
       ) {
         this.directions.x = -2;
-        this.speed = 4.5;
+        this.speed = 6.5;
       } else if (
         this.positions.x + this.sizes.width > paddleSemiTipLeft &&
         this.positions.x + this.sizes.width < paddleCenter
       ) {
         this.directions.x = -1;
-        this.speed = 5;
+        this.speed = 7;
       } else if (
         this.positions.x + this.sizes.width >= paddleCenter &&
         this.positions.x < paddleCenter + paddleSemiTipLeft
       ) {
         this.directions.x = -0.5;
-        this.speed = 5.5;
+        this.speed = 7.5;
       }
 
       if (
@@ -118,7 +131,7 @@ export class Ball extends Canvas implements IBall {
       ) {
         console.log("Bati do lado direito do centro");
         this.directions.x = 0.5;
-        this.speed = 6;
+        this.speed = 8;
       } else if (
         this.positions.x > paddleCenter &&
         this.positions.x > paddleCenter + 30 &&
@@ -126,15 +139,13 @@ export class Ball extends Canvas implements IBall {
           this.paddle.positions.x + this.paddle.sizes.width - 10
       ) {
         this.directions.x = 1;
-        this.speed = 5;
-        console.log("Bati nromal");
+        this.speed = 7;
       } else if (
         this.positions.x > paddleCenter + 30 &&
         this.positions.x <= this.paddle.positions.x + this.paddle.sizes.width
       ) {
         this.directions.x = 2;
-        this.speed = 4;
-        console.log("Bati na ponta");
+        this.speed = 6;
       }
 
       this.directions.y *= -1;
@@ -154,5 +165,21 @@ export class Ball extends Canvas implements IBall {
 
   heightBall() {
     return this.angles.ray;
+  }
+
+  topBall() {
+    return this.positions.y;
+  }
+
+  bottomBall() {
+    return this.positions.y + this.sizes.height;
+  }
+
+  leftBall() {
+    return this.positions.x;
+  }
+
+  rightBall() {
+    return this.positions.x + this.sizes.width;
   }
 }

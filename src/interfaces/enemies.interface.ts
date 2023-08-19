@@ -3,10 +3,8 @@ export interface IEnemies {
     width: number;
     height: number;
   };
-}
-
-export interface IEnemyObject {
-  positionX: number;
-  positionY: number;
-  destroyed: boolean;
+  positions: {
+    x: number;
+    y: number;
+  };
 }

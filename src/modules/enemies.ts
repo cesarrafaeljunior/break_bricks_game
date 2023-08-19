@@ -1,5 +1,5 @@
 import { Game } from "..";
-import { IEnemies, IEnemyObject } from "../interfaces/enemies.interface";
+import { IEnemies } from "../interfaces/enemies.interface";
 import { Ball } from "./ball.modules";
 import { Canvas } from "./canvas.modules";
 
@@ -7,31 +7,26 @@ export const enemies: string[][] = [];
 
 export class Enemies extends Canvas implements IEnemies {
   sizes: { width: number; height: number };
+  positions: { x: number; y: number };
   ctx: CanvasRenderingContext2D;
-  enemies: IEnemyObject[] = [];
   ball: Ball;
   spaceX: number;
   spaceY: number;
   quantityEnemyInRow: number;
   quantityColumn: number;
-  quantityMax: number;
-  quantityMaxPerRow: number;
   currentRow: number;
   currentColumn: number;
 
   constructor(ctx: CanvasRenderingContext2D, ball: Ball) {
     super();
     this.sizes = { width: 15, height: 15 };
+    this.positions = { x: 0, y: 0 };
     this.ctx = ctx;
     this.ball = ball;
-    this.spaceX = 15;
-    this.spaceY = 15;
-    this.quantityEnemyInRow = 68;
+    this.spaceX = 50;
+    this.spaceY = 40;
+    this.quantityEnemyInRow = 20;
     this.quantityColumn = 10;
-    this.quantityMax = 400;
-    this.quantityMaxPerRow = Math.floor(
-      this.ctx.canvas.width / this.sizes.width
-    );
     this.currentRow = 0;
     this.currentColumn = 0;
   }
@@ -55,13 +50,15 @@ export class Enemies extends Canvas implements IEnemies {
     enemies.forEach((row, index) => {
       row.forEach((enemy, j) => {
         if (enemy === "*") {
-          this.draw(j * this.spaceX, index * this.spaceY, j, index);
+          this.draw(15 + j * this.spaceX, 30 + index * this.spaceY, j, index);
         }
       });
     });
   }
 
   draw(positionX: number, positionY: number, j: number, index: number) {
+    this.positions.x = positionX;
+    this.positions.y = positionY;
     this.ctx.fillStyle = "green";
     this.ctx.fillRect(
       positionX,
@@ -77,27 +74,16 @@ export class Enemies extends Canvas implements IEnemies {
       this.sizes.height
     );
 
-    this.colisionWhitBall(positionX, positionY, j, index);
+    this.colisionWhitBall(j, index);
   }
 
-  colisionWhitBall(
-    positionX: number,
-    positionY: number,
-    j: number,
-    index: number
-  ) {
-    const ballTop = this.ball.positions.y;
-    const ballBottom = this.ball.positions.y + this.ball.sizes.height;
-    const ballLeft = this.ball.positions.x;
-    const ballRight = this.ball.positions.x + this.ball.sizes.width;
-
-    const enemyTop = positionY;
-    const enemyBottom = positionY + this.sizes.height;
-    const enemyLeft = positionX;
-    const enemyRight = positionX + this.sizes.width;
-
-    const horizontalOverlap = ballLeft < enemyRight && ballRight > enemyLeft;
-    const verticalOverlap = ballTop < enemyBottom && ballBottom > enemyTop;
+  colisionWhitBall(j: number, index: number) {
+    const horizontalOverlap =
+      this.ball.leftBall() < this.rightEnemy() &&
+      this.ball.rightBall() > this.leftEnemy();
+    const verticalOverlap =
+      this.ball.topBall() < this.bottomEnemy() &&
+      this.ball.bottomBall() > this.topEnemy();
 
     if (horizontalOverlap && verticalOverlap) {
       let row = enemies[index];
@@ -108,19 +94,55 @@ export class Enemies extends Canvas implements IEnemies {
       Game.quantityEnemiesValues--;
       Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`; // Atualiza o valor no array original
 
-      if (ballTop <= enemyBottom && ballBottom > enemyBottom) {
+      if (
+        this.ball.topBall() <= this.bottomEnemy() &&
+        this.ball.bottomBall() > this.bottomEnemy()
+      ) {
         // Colisão com a parte de cima do inimigo
         this.ball.directions.y *= -1; // Faz a bola pular para cima após a colisão
-      } else if (ballBottom >= enemyTop && ballTop < enemyTop) {
+      } else if (
+        this.ball.bottomBall() >= this.topEnemy() &&
+        this.ball.topBall() < this.topEnemy()
+      ) {
         // Colisão com a parte de baixo do inimigo
         this.ball.directions.y *= -1; // Faz a bola pular para baixo após a colisão
-      } else if (ballRight >= enemyLeft && ballLeft < enemyLeft) {
+      } else if (
+        this.ball.rightBall() >= this.leftEnemy() &&
+        this.ball.leftBall() < this.leftEnemy()
+      ) {
         // Colisão com a lateral esquerda do inimigo
         this.ball.directions.x *= -1; // Inverte a direção horizontal da bola após a colisão
-      } else if (ballLeft <= enemyRight && ballRight > enemyRight) {
+      } else if (
+        this.ball.leftBall() <= this.rightEnemy() &&
+        this.ball.rightBall() > this.rightEnemy()
+      ) {
         // Colisão com a lateral direita do inimigo
         this.ball.directions.x *= -1; // Inverte a direção horizontal da bola após a colisão
       }
     }
+  }
+
+  widthEnemy() {
+    return this.sizes.width;
+  }
+
+  heightEnemy() {
+    return this.sizes.height;
+  }
+
+  topEnemy() {
+    return this.positions.y;
+  }
+
+  bottomEnemy() {
+    return this.positions.y + this.sizes.height;
+  }
+
+  leftEnemy() {
+    return this.positions.x;
+  }
+
+  rightEnemy() {
+    return this.positions.x + this.sizes.width;
   }
 }

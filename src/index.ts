@@ -12,7 +12,7 @@ export class Game extends Canvas {
   enemy: Enemies;
   static initGame: boolean = false;
   static gameOver: boolean = false;
-  button: HTMLButtonElement = document.querySelector("#buttonGame")!;
+  static button: HTMLButtonElement = document.querySelector("#buttonGame")!;
   static score: HTMLParagraphElement = document.querySelector("#score")!;
   static scoreValue = 0;
   static lifes: HTMLParagraphElement = document.querySelector("#life")!;
@@ -20,6 +20,8 @@ export class Game extends Canvas {
   static quantityEnemies: HTMLParagraphElement =
     document.querySelector("#enemies_quantity")!;
   static quantityEnemiesValues = 0;
+  static record: HTMLParagraphElement = document.querySelector("#record")!;
+  static recordValues = Game.scoreValue;
 
   constructor() {
     super();
@@ -28,22 +30,24 @@ export class Game extends Canvas {
     this.paddle = new Paddle(this.ctx);
     this.ball = new Ball(this.ctx, this.paddle);
     this.enemy = new Enemies(this.ctx, this.ball);
-    Game.score.innerText = `${Game.scoreValue}`;
+    Game.quantityEnemiesValues =
+      this.enemy.quantityColumn * this.enemy.quantityEnemyInRow;
     Game.lifes.innerText = `${Game.lifesValues}`;
-    Game.quantityEnemiesValues = this.enemy.quantityMax;
     Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
+    Game.score.innerText = `${Game.scoreValue}`;
+    Game.record.innerText = `${Game.recordValues}`;
     this.initGame();
   }
 
   initGame() {
-    if (this.button) {
+    if (Game.button) {
       if (!Game.initGame) {
-        this.button.addEventListener("click", () => {
+        Game.button.addEventListener("click", () => {
           this.ball.directions.x = Math.random() < 0.5 ? 1 : -1;
           Game.initGame = true;
           Game.gameOver = false;
-          this.button.classList.add("buttonHidden");
-          this.button.setAttribute("disabled", "true");
+          Game.button.classList.add("buttonHidden");
+          Game.button.setAttribute("disabled", "true");
         });
       }
     }
@@ -60,10 +64,14 @@ export class Game extends Canvas {
     this.ball.draw();
     this.enemy.populateEnemies();
     if (Game.gameOver) {
-      this.button.classList.remove("buttonHidden");
-      this.button.removeAttribute("disabled");
+      Game.enableButtonStart();
       this.texts.drawText();
     }
+  }
+
+  static enableButtonStart() {
+    this.button.classList.remove("buttonHidden");
+    this.button.removeAttribute("disabled");
   }
 
   gameLoop = () => {
