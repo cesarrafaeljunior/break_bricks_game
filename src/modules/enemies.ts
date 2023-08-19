@@ -1,8 +1,9 @@
+import { Game } from "..";
 import { IEnemies, IEnemyObject } from "../interfaces/enemies.interface";
 import { Ball } from "./ball.modules";
 import { Canvas } from "./canvas.modules";
 
-const enemies: string[][] = [];
+export const enemies: string[][] = [];
 
 export class Enemies extends Canvas implements IEnemies {
   sizes: { width: number; height: number };
@@ -23,9 +24,9 @@ export class Enemies extends Canvas implements IEnemies {
     this.sizes = { width: 15, height: 15 };
     this.ctx = ctx;
     this.ball = ball;
-    this.spaceX = 20;
-    this.spaceY = 20;
-    this.quantityEnemyInRow = 50;
+    this.spaceX = 15;
+    this.spaceY = 15;
+    this.quantityEnemyInRow = 68;
     this.quantityColumn = 10;
     this.quantityMax = 400;
     this.quantityMaxPerRow = Math.floor(
@@ -100,7 +101,12 @@ export class Enemies extends Canvas implements IEnemies {
 
     if (horizontalOverlap && verticalOverlap) {
       let row = enemies[index];
-      row[j] = "_"; // Atualiza o valor no array original
+      row[j] = "_";
+      Game.scoreValue += 1;
+      Game.score.innerText = `${Game.scoreValue}`; // Atualiza o valor no array original
+      console.log(Game.scoreValue);
+      Game.quantityEnemiesValues--;
+      Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`; // Atualiza o valor no array original
 
       if (ballTop <= enemyBottom && ballBottom > enemyBottom) {
         // Colisão com a parte de cima do inimigo

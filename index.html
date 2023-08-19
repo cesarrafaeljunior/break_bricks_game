@@ -9,8 +9,26 @@
   </head>
   <body>
     <main>
-      <canvas id="canvas"> Navegador nao suportado </canvas>
-      <button id="buttonGame">Start game</button>
+      <div class="box_infos">
+        <div class="canvas_button">
+          <canvas id="canvas"> Navegador nao suportado </canvas>
+          <button id="buttonGame">Start game</button>
+        </div>
+        <div>
+          <div class="box_flex-info">
+            <p class="info_value">Score:</p>
+            <p class="values" id="score"></p>
+          </div>
+          <div class="box_flex-info">
+            <p class="info_value">Lifes:</p>
+            <p class="values" id="life"></p>
+          </div>
+          <div class="box_flex-info">
+            <p class="info_value">Quantity enemies:</p>
+            <p class="values" id="enemies_quantity">1000</p>
+          </div>
+        </div>
+      </div>
     </main>
   </body>
 </html>

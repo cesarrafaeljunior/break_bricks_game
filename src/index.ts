@@ -1,6 +1,6 @@
 import { Ball } from "./modules/ball.modules";
 import { Canvas } from "./modules/canvas.modules";
-import { Enemies } from "./modules/enemies";
+import { Enemies, enemies } from "./modules/enemies";
 import { Paddle } from "./modules/pad.modules";
 import { Texts } from "./modules/texts.modules";
 
@@ -13,6 +13,13 @@ export class Game extends Canvas {
   static initGame: boolean = false;
   static gameOver: boolean = false;
   button: HTMLButtonElement = document.querySelector("#buttonGame")!;
+  static score: HTMLParagraphElement = document.querySelector("#score")!;
+  static scoreValue = 0;
+  static lifes: HTMLParagraphElement = document.querySelector("#life")!;
+  static lifesValues = 3;
+  static quantityEnemies: HTMLParagraphElement =
+    document.querySelector("#enemies_quantity")!;
+  static quantityEnemiesValues = 0;
 
   constructor() {
     super();
@@ -21,6 +28,10 @@ export class Game extends Canvas {
     this.paddle = new Paddle(this.ctx);
     this.ball = new Ball(this.ctx, this.paddle);
     this.enemy = new Enemies(this.ctx, this.ball);
+    Game.score.innerText = `${Game.scoreValue}`;
+    Game.lifes.innerText = `${Game.lifesValues}`;
+    Game.quantityEnemiesValues = this.enemy.quantityMax;
+    Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
     this.initGame();
   }
 
