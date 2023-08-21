@@ -66,12 +66,19 @@ export class Game extends Canvas {
     if (Game.gameOver) {
       Game.enableButtonStart();
       this.texts.drawText();
+      this.restartGame();
     }
   }
 
   static enableButtonStart() {
     this.button.classList.remove("buttonHidden");
     this.button.removeAttribute("disabled");
+  }
+
+  restartGame() {
+    Game.lifesValues = 3;
+    Game.lifes.innerText = `${Game.lifesValues}`;
+    this.enemy.restartPositionEnemies();
   }
 
   gameLoop = () => {

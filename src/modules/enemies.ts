@@ -89,10 +89,9 @@ export class Enemies extends Canvas implements IEnemies {
       let row = enemies[index];
       row[j] = "_";
       Game.scoreValue += 1;
-      Game.score.innerText = `${Game.scoreValue}`; // Atualiza o valor no array original
-      console.log(Game.scoreValue);
+      Game.score.innerText = `${Game.scoreValue}`;
       Game.quantityEnemiesValues--;
-      Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`; // Atualiza o valor no array original
+      Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
 
       if (
         this.ball.topBall() <= this.bottomEnemy() &&
@@ -118,6 +117,14 @@ export class Enemies extends Canvas implements IEnemies {
       ) {
         // Colisão com a lateral direita do inimigo
         this.ball.directions.x *= -1; // Inverte a direção horizontal da bola após a colisão
+      }
+    }
+  }
+
+  restartPositionEnemies() {
+    for (let i = 0; i < enemies.length; i++) {
+      for (let j = 0; j < enemies[i].length; j++) {
+        enemies[i][j] = "*";
       }
     }
   }
