@@ -12,9 +12,15 @@ export class Game extends Canvas {
   enemy: Enemies;
   static initGame: boolean = false;
   static gameOver: boolean = false;
+  static pauseGame: boolean = false;
   static winGame: boolean = false;
   static button: HTMLButtonElement = document.querySelector("#buttonGame")!;
   static score: HTMLParagraphElement = document.querySelector("#score")!;
+  static buttonDecreaseEnemies: HTMLButtonElement =
+    document.querySelector("#decrease")!;
+  static buttonAddEnemies: HTMLButtonElement = document.querySelector("#add")!;
+  static buttonPause: HTMLButtonElement = document.querySelector("#pause")!;
+  static buttonResume: HTMLButtonElement = document.querySelector("#play")!;
   static scoreValue = 0;
   static lifes: HTMLParagraphElement = document.querySelector("#life")!;
   static lifesValues = 3;
@@ -41,17 +47,36 @@ export class Game extends Canvas {
   }
 
   initGame() {
-    if (Game.button) {
-      if (!Game.initGame) {
-        Game.button.addEventListener("click", () => {
-          this.ball.directions.x = Math.random() < 0.5 ? 1 : -1;
-          Game.initGame = true;
-          Game.gameOver = false;
-          Game.button.classList.add("buttonHidden");
-          Game.button.setAttribute("disabled", "true");
-        });
-      }
+    if (!Game.initGame) {
+      Game.button.addEventListener("click", () => {
+        this.ball.directions.x = Math.random() < 0.5 ? 1 : -1;
+        Game.initGame = true;
+        Game.gameOver = false;
+        Game.button.classList.add("buttonHidden");
+        Game.button.setAttribute("disabled", "true");
+      });
     }
+
+    Game.buttonDecreaseEnemies.addEventListener("click", () => {
+      if (this.enemy.quantityColumn > 1) {
+        this.enemy.decreaseColumnEnemies();
+      }
+    });
+
+    Game.buttonAddEnemies.addEventListener("click", () => {
+      if (this.enemy.quantityColumn < 16) {
+        this.enemy.addColumnEnemies();
+      }
+    });
+
+    Game.buttonPause.addEventListener("click", () => {
+      Game.pauseGame = true;
+    });
+
+    Game.buttonResume.addEventListener("click", () => {
+      Game.pauseGame = false;
+      Game.initGame = true;
+    });
   }
 
   renderBg() {
@@ -64,6 +89,12 @@ export class Game extends Canvas {
     this.paddle.draw();
     this.ball.draw();
     this.enemy.populateEnemies();
+
+    if (Game.pauseGame == true) {
+      this.texts.drawText("Pausa");
+      Game.initGame = false;
+    }
+
     if (Game.quantityEnemiesValues === 0) {
       Game.winGame = true;
     }
@@ -91,6 +122,8 @@ export class Game extends Canvas {
     Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
     this.enemy.restartPositionEnemies();
   }
+
+  addColumnEnemy() {}
 
   gameLoop = () => {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);

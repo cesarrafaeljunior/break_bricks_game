@@ -8,8 +8,6 @@ export const enemies: string[][] = [];
 export class Enemies extends Canvas implements IEnemies {
   sizes: { width: number; height: number };
   positions: { x: number; y: number };
-  ctx: CanvasRenderingContext2D;
-  ball: Ball;
   spaceX: number;
   spaceY: number;
   quantityEnemyInRow: number;
@@ -17,12 +15,10 @@ export class Enemies extends Canvas implements IEnemies {
   currentRow: number;
   currentColumn: number;
 
-  constructor(ctx: CanvasRenderingContext2D, ball: Ball) {
+  constructor(public ctx: CanvasRenderingContext2D, public ball: Ball) {
     super();
     this.sizes = { width: 15, height: 15 };
     this.positions = { x: 0, y: 0 };
-    this.ctx = ctx;
-    this.ball = ball;
     this.spaceX = 50;
     this.spaceY = 40;
     this.quantityEnemyInRow = 20;
@@ -127,6 +123,25 @@ export class Enemies extends Canvas implements IEnemies {
         enemies[i][j] = "*";
       }
     }
+  }
+
+  addColumnEnemies() {
+    let newColumn = [];
+    for (let row = 0; row < this.quantityEnemyInRow; row++) {
+      newColumn[row] = "*";
+    }
+    enemies.push(newColumn);
+    this.quantityColumn++;
+    Game.quantityEnemiesValues = this.quantityColumn * this.quantityEnemyInRow;
+    Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
+  }
+
+  decreaseColumnEnemies() {
+    enemies.pop();
+    this.quantityColumn--;
+    Game.quantityEnemiesValues = this.quantityColumn * this.quantityEnemyInRow;
+    Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
+    console.log(this.quantityColumn);
   }
 
   widthEnemy() {
