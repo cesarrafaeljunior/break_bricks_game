@@ -101,9 +101,10 @@ export class Game extends Canvas {
     this.ball.draw();
     this.enemy.populateEnemies();
     this.keyboard.keyPressEvent();
-
     if (this.keyboard.space) {
       Game.initGame = true;
+      Game.button.classList.add("buttonHidden");
+      Game.button.setAttribute("disabled", "true");
     }
 
     if (Game.pauseGame == true) {
