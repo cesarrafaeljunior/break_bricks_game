@@ -14,7 +14,6 @@ export class Paddle extends Canvas implements IPaddle {
     this.sizes = { width: 100, height: 10 };
     this.positions = this.positionPaddle();
     this.speed = 10;
-    console.log(this.positions);
   }
 
   draw() {

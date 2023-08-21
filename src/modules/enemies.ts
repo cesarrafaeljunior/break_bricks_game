@@ -93,26 +93,22 @@ export class Enemies extends Canvas implements IEnemies {
         this.ball.topBall() <= this.bottomEnemy() &&
         this.ball.bottomBall() > this.bottomEnemy()
       ) {
-        // Colisão com a parte de cima do inimigo
-        this.ball.directions.y *= -1; // Faz a bola pular para cima após a colisão
+        this.ball.directions.y *= -1;
       } else if (
         this.ball.bottomBall() >= this.topEnemy() &&
         this.ball.topBall() < this.topEnemy()
       ) {
-        // Colisão com a parte de baixo do inimigo
-        this.ball.directions.y *= -1; // Faz a bola pular para baixo após a colisão
+        this.ball.directions.y *= -1;
       } else if (
         this.ball.rightBall() >= this.leftEnemy() &&
         this.ball.leftBall() < this.leftEnemy()
       ) {
-        // Colisão com a lateral esquerda do inimigo
-        this.ball.directions.x *= -1; // Inverte a direção horizontal da bola após a colisão
+        this.ball.directions.x *= -1;
       } else if (
         this.ball.leftBall() <= this.rightEnemy() &&
         this.ball.rightBall() > this.rightEnemy()
       ) {
-        // Colisão com a lateral direita do inimigo
-        this.ball.directions.x *= -1; // Inverte a direção horizontal da bola após a colisão
+        this.ball.directions.x *= -1;
       }
     }
   }
@@ -132,16 +128,15 @@ export class Enemies extends Canvas implements IEnemies {
     }
     enemies.push(newColumn);
     this.quantityColumn++;
-    Game.quantityEnemiesValues = this.quantityColumn * this.quantityEnemyInRow;
+    Game.quantityEnemiesValues += this.quantityEnemyInRow;
     Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
   }
 
   decreaseColumnEnemies() {
     enemies.pop();
     this.quantityColumn--;
-    Game.quantityEnemiesValues = this.quantityColumn * this.quantityEnemyInRow;
+    Game.quantityEnemiesValues -= this.quantityEnemyInRow;
     Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
-    console.log(this.quantityColumn);
   }
 
   widthEnemy() {

@@ -129,7 +129,6 @@ export class Ball extends Canvas implements IBall {
         this.positions.x > paddleCenter &&
         this.positions.x <= paddleCenter + 30
       ) {
-        console.log("Bati do lado direito do centro");
         this.directions.x = 0.5;
         this.speed = 8;
       } else if (

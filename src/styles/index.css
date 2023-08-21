@@ -100,3 +100,21 @@ main {
   background-color: #016863;
   color: white;
 }
+
+#restart {
+  text-align: center;
+  width: 130px;
+  height: 42px;
+  margin-top: 2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  border: solid 1px black;
+  transition: ease-in 0.2s;
+}
+
+#restart:hover {
+  background-color: #016863;
+  color: white;
+}

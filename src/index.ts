@@ -14,6 +14,7 @@ export class Game extends Canvas {
   static gameOver: boolean = false;
   static pauseGame: boolean = false;
   static winGame: boolean = false;
+  static restartGame: HTMLButtonElement = document.querySelector("#restart")!;
   static button: HTMLButtonElement = document.querySelector("#buttonGame")!;
   static score: HTMLParagraphElement = document.querySelector("#score")!;
   static buttonDecreaseEnemies: HTMLButtonElement =
@@ -70,12 +71,20 @@ export class Game extends Canvas {
     });
 
     Game.buttonPause.addEventListener("click", () => {
-      Game.pauseGame = true;
+      if (Game.initGame) {
+        Game.pauseGame = true;
+      }
     });
 
     Game.buttonResume.addEventListener("click", () => {
-      Game.pauseGame = false;
-      Game.initGame = true;
+      if (Game.pauseGame) {
+        Game.pauseGame = false;
+        Game.initGame = true;
+      }
+    });
+
+    Game.restartGame.addEventListener("click", () => {
+      this.restartGame();
     });
   }
 
@@ -115,12 +124,20 @@ export class Game extends Canvas {
   }
 
   restartGame() {
+    Game.initGame = false;
     Game.lifesValues = 3;
     Game.lifes.innerText = `${Game.lifesValues}`;
     Game.quantityEnemiesValues =
       this.enemy.quantityEnemyInRow * this.enemy.quantityColumn;
     Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
     this.enemy.restartPositionEnemies();
+    Game.enableButtonStart();
+    this.paddle.positionPaddle();
+    this.ball.positionBall();
+
+    if (Game.pauseGame) {
+      Game.pauseGame = false;
+    }
   }
 
   addColumnEnemy() {}
