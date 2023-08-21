@@ -3,6 +3,7 @@ export interface iKeyboard {
   down: boolean;
   right: boolean;
   left: boolean;
+  space: boolean;
 }
 
 export class Keyboard implements iKeyboard {
@@ -10,6 +11,7 @@ export class Keyboard implements iKeyboard {
   down: boolean = false;
   right: boolean = false;
   left: boolean = false;
+  space: boolean = false;
 
   public keyPressEvent() {
     window.addEventListener("keydown", (e) => {
@@ -18,6 +20,9 @@ export class Keyboard implements iKeyboard {
       } else if (e.key == "ArrowRight") {
         this.right = true;
       }
+      if (e.key === " ") {
+        this.space = true;
+      }
     });
 
     window.addEventListener("keyup", (e) => {
@@ -25,6 +30,9 @@ export class Keyboard implements iKeyboard {
         this.left = false;
       } else if (e.key == "ArrowRight") {
         this.right = false;
+      }
+      if (e.key === " ") {
+        this.space = false;
       }
     });
   }

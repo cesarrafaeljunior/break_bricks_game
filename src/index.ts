@@ -1,6 +1,7 @@
 import { Ball } from "./modules/ball.modules";
 import { Canvas } from "./modules/canvas.modules";
 import { Enemies, enemies } from "./modules/enemies";
+import { Keyboard } from "./modules/keyboard.modules";
 import { Paddle } from "./modules/pad.modules";
 import { Texts } from "./modules/texts.modules";
 
@@ -10,6 +11,7 @@ export class Game extends Canvas {
   ball: Ball;
   texts: Texts;
   enemy: Enemies;
+  keyboard: Keyboard = new Keyboard();
   static initGame: boolean = false;
   static gameOver: boolean = false;
   static pauseGame: boolean = false;
@@ -98,6 +100,11 @@ export class Game extends Canvas {
     this.paddle.draw();
     this.ball.draw();
     this.enemy.populateEnemies();
+    this.keyboard.keyPressEvent();
+
+    if (this.keyboard.space) {
+      Game.initGame = true;
+    }
 
     if (Game.pauseGame == true) {
       this.texts.drawText("Pausa");
