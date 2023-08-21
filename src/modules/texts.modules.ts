@@ -5,18 +5,14 @@ export class Texts extends Canvas {
     super();
   }
 
-  drawText() {
+  drawText(text: string) {
     this.ctx.shadowColor = "rgba(0,0,255,1)";
     (this.ctx.shadowOffsetX = 8), (this.ctx.shadowOffsetY = 8);
     this.ctx.shadowBlur = 15;
 
     this.ctx.font = "8rem Inter";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText(
-      "Game Over",
-      this.widthCanvas() / 2,
-      this.heightCanvas() / 2
-    );
+    this.ctx.fillText(text, this.widthCanvas() / 2, this.heightCanvas() / 2);
     this.ctx.textAlign = "center";
 
     this.ctx.shadowColor = "rgba(0,0,255,0)";

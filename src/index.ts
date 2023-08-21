@@ -12,6 +12,7 @@ export class Game extends Canvas {
   enemy: Enemies;
   static initGame: boolean = false;
   static gameOver: boolean = false;
+  static winGame: boolean = false;
   static button: HTMLButtonElement = document.querySelector("#buttonGame")!;
   static score: HTMLParagraphElement = document.querySelector("#score")!;
   static scoreValue = 0;
@@ -63,9 +64,16 @@ export class Game extends Canvas {
     this.paddle.draw();
     this.ball.draw();
     this.enemy.populateEnemies();
+    if (Game.quantityEnemiesValues === 0) {
+      Game.winGame = true;
+    }
     if (Game.gameOver) {
       Game.enableButtonStart();
-      this.texts.drawText();
+      this.texts.drawText("Você perdeu!");
+      this.restartGame();
+    } else if (Game.winGame) {
+      Game.enableButtonStart();
+      this.texts.drawText("Você venceu!");
       this.restartGame();
     }
   }
@@ -78,6 +86,9 @@ export class Game extends Canvas {
   restartGame() {
     Game.lifesValues = 3;
     Game.lifes.innerText = `${Game.lifesValues}`;
+    Game.quantityEnemiesValues =
+      this.enemy.quantityEnemyInRow * this.enemy.quantityColumn;
+    Game.quantityEnemies.innerText = `${Game.quantityEnemiesValues}`;
     this.enemy.restartPositionEnemies();
   }
 

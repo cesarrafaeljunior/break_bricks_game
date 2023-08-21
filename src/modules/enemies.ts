@@ -26,7 +26,7 @@ export class Enemies extends Canvas implements IEnemies {
     this.spaceX = 50;
     this.spaceY = 40;
     this.quantityEnemyInRow = 20;
-    this.quantityColumn = 10;
+    this.quantityColumn = 5;
     this.currentRow = 0;
     this.currentColumn = 0;
   }
